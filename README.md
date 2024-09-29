@@ -18,7 +18,7 @@ composer install
 ```
  
  * second step
-update .env file with your database credentials
+update ".env" file with your database credentials
 
 * third step
 ```bash
@@ -35,9 +35,13 @@ update the file "storage\app\credentials\task-management-firebase-credentials.js
 * last step
 
 ```bash
+php artisan queue:work
+```
+
+```bash
 php artisan serve
 ```
 
 
-###### API postman documentation  in "API_Collection.postman_collection" 
+###### API postman documentation  in the file "API_Collection.postman_collection" 
 #### developed by Tarek Badry 
