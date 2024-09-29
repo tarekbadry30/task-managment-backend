@@ -4,12 +4,11 @@ namespace App\Listeners\Task;
 
 use App\Events\Task\TaskCreatedEvent;
 use App\Services\FireStoreService;
-use Google\Cloud\Firestore\FirestoreClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class TaskCreatedListener
+class TaskCreatedListener implements ShouldQueue
 {
     /**
      * Create the event listener.

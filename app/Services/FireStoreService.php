@@ -34,13 +34,13 @@ class FireStoreService
     // Create a new Firestore document
     public function createTask($taskId, array $data)
     {
-        return $this->firestore->collection('tasks')->document($taskId);//->set($data);
+        return $this->firestore->collection('tasks')->document($taskId)->set($data);
     }
 
     // Update an existing Firestore document
     public function updateTask($taskId, array $data)
     {
-        return $this->firestore->collection('tasks')->document($taskId);//->update($data);
+        return $this->firestore->collection('tasks')->document($taskId)->update($data);
     }
 
     // Delete a Firestore document
