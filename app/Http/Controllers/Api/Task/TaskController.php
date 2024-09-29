@@ -62,10 +62,12 @@ class TaskController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         $task=Task::find($id);
+        $oldStatus=$task->status;
         if(!isset($task))
             return $this->errorResponse('task not found',[],404);
         $task->update($request->validated());
-        if($task->isDirty('status'))
+
+        if($oldStatus!=$request->input('status'))
             event(new TaskUpdatedEvent($task));
 
         return $this->successResponse(new TaskResource($task),'the task updated success',200);

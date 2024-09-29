@@ -24,6 +24,9 @@ class FireStoreService
     // Singleton access method
     public static function getInstance()
     {
+        if(env('FIRESTORE_CUSTOM_CONNECTION',false)==true){
+            return new FireStoreWithoutPackageService();
+        }
         if (self::$instance === null) {
             self::$instance = new FirestoreService();
         }

@@ -22,6 +22,9 @@ update ".env" file with your database credentials
 
 * third step
 ```bash
+php artisan queue:table 
+```
+```bash
 php artisan migrate 
 ```
 
@@ -30,7 +33,8 @@ php artisan db:seed UserSeeder
 ```
 * fourth step
 
-update the file "storage\app\credentials\task-management-firebase-credentials.json"  with your firestore credentials
+- update the file "storage\app\credentials\task-management-firebase-credentials.json"  with your firestore credentials
+- update the file ".env"  with your firestore project id
 
 * last step
 
