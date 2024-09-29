@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api\Task;
 
+use App\Events\Task\TaskCreatedEvent;
+use App\Events\Task\TaskDeletedEvent;
+use App\Events\Task\TaskUpdatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
@@ -9,6 +12,7 @@ use App\Http\Resources\Task\TaskCollectionResource;
 use App\Http\Resources\Task\TaskResource;
 use App\Http\Traits\ApiTrait;
 use App\Models\Task;
+use App\Services\FireStoreService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -35,6 +39,7 @@ class TaskController extends Controller
     public function store(StoreRequest $request)
     {
         $task=Task::create($request->validated());
+        event(new TaskCreatedEvent($task));
         return $this->successResponse(new TaskResource($task),'new task created',201);
     }
 
@@ -60,7 +65,10 @@ class TaskController extends Controller
         if(!isset($task))
             return $this->errorResponse('task not found',[],404);
         $task->update($request->validated());
-        return$this->successResponse(new TaskResource($task),'the task updated success',200);
+        if($task->isDirty('status'))
+            event(new TaskUpdatedEvent($task));
+
+        return $this->successResponse(new TaskResource($task),'the task updated success',200);
 
     }
 
@@ -73,6 +81,8 @@ class TaskController extends Controller
         if(!isset($task))
             return $this->errorResponse('task not found',[],404);
         $task->delete();
+        event(new TaskDeletedEvent($task));
+
         return $this->successResponse([],'the task deleted success',200);
     }
 }
